@@ -10,6 +10,15 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
+RUN apk update && \
+    apk add --no-cache \
+    build-base \
+    linux-headers \
+    postgresql-dev \
+    libjpeg-turbo-dev \
+    zlib-dev
+
+
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
