@@ -23,16 +23,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s&b=qevr%7(j4k%f67=m6$41f9!ed(vt7ip-6=^qy286!via5a'
+# SECRET_KEY = 'django-insecure-s&b=qevr%7(j4k%f67=m6$41f9!ed(vt7ip-6=^qy286!via5a'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'febridwiputro')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1'
 ]
-
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        os.environ.get('ALLOWED_HOSTS', '').split(','),
+    )
+)
 
 # Application definition
 
@@ -48,6 +55,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'core',
     'user',
+    'recipe',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +143,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/static/'
+MEDIA_URL = '/static/media/'
+
+MEDIA_ROOT = '/vol/web/media'
+STATIC_ROOT = '/vol/web/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -151,5 +163,6 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'RECIPE APP API',
     'DESCRIPTION': 'API documentation for RECIPE APP Service',
+    'COMPONENT_SPLIT_REQUEST': True,
     'VERSION': '1.0.0',
 }
