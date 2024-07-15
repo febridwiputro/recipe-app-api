@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',    
     'drf_spectacular',
     'core',
     'user',
@@ -145,4 +146,10 @@ AUTH_USER_MODEL = 'core.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'RECIPE APP API',
+    'DESCRIPTION': 'API documentation for RECIPE APP Service',
+    'VERSION': '1.0.0',
 }
